@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IRandomUser } from "../type/interfaces/Randomuser";
 import axios from "axios";
 
@@ -7,8 +7,8 @@ export default function Getuser() {
     const [loading, setloading] = useState<boolean>(false);
     const [error, seterror] = useState<string>("");
 
-    useEffect(() => {
-        const fetchUser = async () => {
+    const fetchUser = useCallback(async () => {
+       
             try {
                 setloading(true);
                 const response = await axios.get("https://randomuser.me/api/?results=1&nat=us");
@@ -19,10 +19,9 @@ export default function Getuser() {
             } finally {
                 setloading(false);
             }
-        };
-
-        fetchUser(); 
     }, []);
-
-    return { user, loading, error }; 
+    useEffect(()=>{
+        fetchUser()
+    },[fetchUser])
+    return { user, loading, error , refetch:fetchUser}; 
 }
