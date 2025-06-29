@@ -8,20 +8,20 @@ export default function Getuser() {
     const [error, seterror] = useState<string>("");
 
     const fetchUser = useCallback(async () => {
-       
-            try {
-                setloading(true);
-                const response = await axios.get("https://randomuser.me/api/?results=1&nat=us");
-                setuser(response.data.results[0]);
-            } catch (err) {
-                console.error(err);
-                seterror("Error fetching user data");
-            } finally {
-                setloading(false);
-            }
+
+        try {
+            setloading(true);
+            const response = await axios.get("https://randomuser.me/api/?results=1&nat=us");
+            setuser(response.data.results[0]);
+        } catch (err) {
+            console.error(err);
+            seterror("Error fetching user data");
+        } finally {
+            setloading(false);
+        }
     }, []);
-    useEffect(()=>{
+    useEffect(() => {
         fetchUser()
-    },[fetchUser])
-    return { user, loading, error , refetch:fetchUser}; 
+    }, [fetchUser])
+    return { user, loading, error, refetch: fetchUser };
 }
